@@ -50,38 +50,34 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	}
 
 	public List<Actor> findActorsByFilmId(int filmId) {
-		List<Film> films = new ArrayList<>();
+		List<Actor> actors = new ArrayList<>();
+		int actorId = 0;
+		Actor actor = null;
+		String user = "student";
+		String password = "student";
 		try {
 			Connection conn = DriverManager.getConnection(URL, userName, password);
-			String sql = "SELECT id, title, description, release_year, language_id, rental_duration, ";
-			sql += " rental_rate, length, replacement_cost, rating, special_features "
-					+ " FROM film JOIN film_actor ON film.id = film_actor.film_id " + " WHERE actor_id = ?";
-			PreparedStatement stmt = conn.prepareStatement(sql);
+			String sql = "SELECT actor.id, actor.first_name, actor.last_name"
+					+ " FROM film JOIN film_actor ON film.id = film_actor.film_id " 
+					+ " WHERE actor_id = ?";
+			java.sql.PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, filmId);
-			ResultSet rs = stmt.executeQuery();
-			while (rs.next()) {
-				int filmId = rs.getInt("id");
-				String title = rs.getString("title");
-				String description = rs.getString("description");
-				int releaseYr = rs.getShort("release_year");
-				int languageId = rs.getInt("language_id");
-				int rentalDuration = rs.getInt("rental_duration");
-				double rentalRate = rs.getDouble("rate");
-				int length = rs.getInt("length");
-				double replaceCost = rs.getDouble("replacement_cost");
-				String rating = rs.getString("rating");
-				String specialFeatures = rs.getString("special_features");
-				Film film = new Film(filmId, title, description, releaseYr, languageId, rentalDuration, rentalRate,
-						length, replaceCost, rating, specialFeatures);
-				films.add(film);
+			ResultSet actorResult = stmt.executeQuery();
+			while (actorResult.next()) {
+				actor = new Actor();
+				actor.setActorId(actorResult.getInt("actor.id"));
+				actor.setFirstName(actorResult.getString("actor.first_name"));
+				actor.setLastName(actorResult.getString("actor.last_name"));
+				actor.setFilms(findFilmsByActorId(actorId));
+				actors.add(actor);
 			}
-			rs.close();
+			actorResult.close();
 			stmt.close();
 			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return films;
+		return actors;
 	}
 
 	@Override
@@ -93,30 +89,30 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			Connection conn = DriverManager.getConnection(URL, user, pass);
 			String sql = "SELECT id, title, description, release_year," + "language_id, rental_duration, rental_rate,"
 					+ "length, replacement_cost, rating, special_features" + " FROM film WHERE id = ?";
-			PreparedStatement stmt = conn.prepareStatement(sql);
+			java.sql.PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, filmId);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				int fId = rs.getInt("id"); // film id
 				String title = rs.getString("title"); // title
-				String desc = rs.getString("description"); // description
+				String description = rs.getString("description"); // description
 				int releaseYear = rs.getInt("release_year"); // release year
-				int langId = rs.getInt("language_id"); // language id
-				int rentDur = rs.getInt("rental_duration"); // rental duration
+				int languageId = rs.getInt("language_id"); // language id
+				int rentalDuration = rs.getInt("rental_duration"); // rental duration
 				double rate = rs.getDouble("rate"); // rental_rate
 				int length = rs.getInt("length"); // length
-				double repCost = rs.getDouble("replacement_cost"); // replacement_cost
+				double replaceCost = rs.getDouble("replacement_cost"); // replacement_cost
 				String rating = rs.getString("rating"); // rating
-				String features = rs.getString("special_features"); // special features
+				String specialFeatures = rs.getString("special_features"); // special features
 				List<Actor> actors = findActorsByFilmId(fId);
-				film = new Film(filmId, title, desc, releaseYear, languageId, rentDur, rate, length, repCost, rating,
-						features, actors, language);
+				film = new Film(filmId, title, description, releaseYear, languageId, rentalDuration, rate, length, replaceCost, rating,
+								specialFeatures, actors);
 			}
 			rs.close();
 			stmt.close();
 			conn.close();
-		try {
-			Connection conn = DriverManager.getConnection(URL, userName, password);
+		
+//			Connection conn = DriverManager.getConnection(URL, userName, password);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

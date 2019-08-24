@@ -1,5 +1,7 @@
 package com.skilldistillery.filmquery.entities;
 
+import java.util.List;
+
 public class Film {
 	private int filmId;
 	private String title;
@@ -12,12 +14,14 @@ public class Film {
 	private double replaceCost;
 	private String rating;
 	private String specialFeatures;
+	private List<Actor> actors;
 	
 	public Film() {}
 	
-	public Film(int id, String title, String description, int releaseYr, int languageId, int rentalDuration,
-			double rentalRate, int length, double replaceCost, String rating, String specialFeatures) {
-		this.filmId = id;
+	public Film(int filmId, String title, String description, int releaseYr, int languageId, int rentalDuration,
+			double rentalRate, int length, double replaceCost, String rating, String specialFeatures,
+			List<Actor> actors) {
+		this.filmId = filmId;
 		this.title = title;
 		this.description = description;
 		this.releaseYr = releaseYr;
@@ -28,13 +32,39 @@ public class Film {
 		this.replaceCost = replaceCost;
 		this.rating = rating;
 		this.specialFeatures = specialFeatures;
+		this.actors = actors;
 	}
 
-	public int getId() {
+	public int getFilmId() {
 		return filmId;
 	}
-	public void setId(int id) {
-		this.filmId = id;
+	
+	public void setFilmId(int filmId) {
+		this.filmId = filmId;
+	}
+	
+	public int getLanguageId() {
+		return languageId;
+	}
+	
+	public void setLanguageId(int languageId) {
+		this.languageId = languageId;
+	}
+	
+	public String getSpecialFeatures() {
+		return specialFeatures;
+	}
+	
+	public void setSpecialFeatures(String specialFeatures) {
+		this.specialFeatures = specialFeatures;
+	}
+	
+	public List<Actor> getActors() {
+		return actors;
+	}
+	
+	public void setActors(List<Actor> actors) {
+		this.actors = actors;
 	}
 	public String getTitle() {
 		return title;
@@ -57,8 +87,8 @@ public class Film {
 	public int getLangId() {
 		return languageId;
 	}
-	public void setLangId(int langId) {
-		this.languageId = langId;
+	public void setLangId(int languageId) {
+		this.languageId = languageId;
 	}
 	public int getRentalDuration() {
 		return rentalDuration;
@@ -90,12 +120,6 @@ public class Film {
 	public void setRating(String rating) {
 		this.rating = rating;
 	}
-	public String getSpecialFeature() {
-		return specialFeatures;
-	}
-	public void setSpecialFeature(String specialFeature) {
-		this.specialFeatures = specialFeature;
-	}
 
 	@Override
 	public int hashCode() {
@@ -112,7 +136,6 @@ public class Film {
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(replaceCost);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + ((specialFeatures == null) ? 0 : specialFeatures.hashCode());
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		return result;
 	}
@@ -147,11 +170,6 @@ public class Film {
 		if (Double.doubleToLongBits(rentalRate) != Double.doubleToLongBits(other.rentalRate))
 			return false;
 		if (Double.doubleToLongBits(replaceCost) != Double.doubleToLongBits(other.replaceCost))
-			return false;
-		if (specialFeatures == null) {
-			if (other.specialFeatures != null)
-				return false;
-		} else if (!specialFeatures.equals(other.specialFeatures))
 			return false;
 		if (title == null) {
 			if (other.title != null)

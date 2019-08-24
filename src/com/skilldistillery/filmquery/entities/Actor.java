@@ -1,5 +1,7 @@
 package com.skilldistillery.filmquery.entities;
 
+import java.util.List;
+
 public class Actor {
 	private int actorId;
 	private String firstName;
@@ -38,5 +40,5 @@ public class Actor {
 		this.lastName = lastName;
 	}
 	
-	
+	public void setFilms(List<Film> findFilmsByAcotrId) {}
 }
