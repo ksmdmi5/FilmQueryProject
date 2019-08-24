@@ -1,23 +1,35 @@
 package com.skilldistillery.filmquery.app;
 
+import java.util.List;
 import java.util.Scanner;
 
 import com.skilldistillery.filmquery.database.DatabaseAccessor;
 import com.skilldistillery.filmquery.database.DatabaseAccessorObject;
+import com.skilldistillery.filmquery.entities.Actor;
 import com.skilldistillery.filmquery.entities.Film;
 
 public class FilmQueryApp {
-
+	private static final String URL = "jdb:mysql://localhost:3306/sdvid?useSSL=false";
 	DatabaseAccessor db = new DatabaseAccessorObject();
-
-	public static void main(String[] args) {
+	
+public FilmQueryApp() throws ClassNotFoundException {
+	Class.forName("com.mysql.jdbc.Driver");
+}
+	
+	public static void main(String[] args) throws ClassNotFoundException {
 		FilmQueryApp app = new FilmQueryApp();
-		app.test();
-//    app.launch();
+//		app.test();
+    app.launch();
 	}
 
 	private void test() {
 		Film film = db.findFilmById(1);
+		List<Film> films = ((DatabaseAccessorObject) db).findFilmsByActorId(4);
+		System.out.println(film.getActors().size());
+		System.out.println("Film ID: " + 1);
+//		System.out.println(film.().size());
+		System.out.println(film);
+		Actor actor = db.findActorById(10);
 		System.out.println(film);
 	}
 
@@ -58,7 +70,18 @@ public class FilmQueryApp {
 	}
 
 	private void searchFilmByKey(String key) {
-		// TODO Auto-generated method stub
+		List<Film> films = null;
+		if ((films = ((DatabaseAccessorObject) db).findFilmsByKey(key)) != null) {
+			for (Film film : films) {
+				printFilm(film);
+			}
+			int numFilms = films.size();
+			if (numFilms == 0) {
+				System.out.println("Keyword not found.\n");
+			} else {
+				System.out.println("Total number: " + films.size() + "\n");
+			}
+		}
 
 	}
 
@@ -73,10 +96,24 @@ public class FilmQueryApp {
 	}
 
 	private void printFilm(Film film) {
-		System.out.println("\nFilm ID: "+film.getId());
-		
+		System.out.println("Film ID: " + film.getFilmId());
+		System.out.println("Film Title: " + film.getTitle());
+		System.out.println("Relased In: " + film.getReleaseYr());
+		System.out.println("Rating: " + film.getRating());
+		System.out.println("Description: " + film.getDescription());
+		boolean first = true;
+		System.out.println("Cast: ");
+		for (Actor actor : film.getActors()) {
+			if (first) {
+				System.out.print(actor.getFirstName() + " " + actor.getLastName());
+				first = false;
+			} else {
+				System.out.print(", " + actor.getFirstName() + " " + actor.getLastName());
+			}
+		}
 	}
 
-	private void startUserInterface(Scanner kb) {}
+	private void startUserInterface(Scanner kb) {
+	}
 
 }

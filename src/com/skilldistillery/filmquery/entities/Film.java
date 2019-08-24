@@ -18,6 +18,23 @@ public class Film {
 	
 	public Film() {}
 	
+	public Film(int filmId, String title, 
+			String description, int releaseYr, int languageId, int rentalDuration,
+			double rentalRate, int length, double replaceCost, 
+			String rating, String specialFeatures) {
+		this.filmId = filmId;
+		this.title = title;
+		this.description = description;
+		this.releaseYr = releaseYr;
+		this.languageId = languageId;
+		this.rentalDuration = rentalDuration;
+		this.rentalRate = rentalRate;
+		this.length = length;
+		this.replaceCost = replaceCost;
+		this.rating = rating;
+		this.specialFeatures = specialFeatures;
+	}
+	
 	public Film(int filmId, String title, String description, int releaseYr, int languageId, int rentalDuration,
 			double rentalRate, int length, double replaceCost, String rating, String specialFeatures,
 			List<Actor> actors) {

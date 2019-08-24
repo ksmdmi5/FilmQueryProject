@@ -1,9 +1,7 @@
 package com.skilldistillery.filmquery.database;
 
 import com.skilldistillery.filmquery.entities.Film;
-
 import java.util.List;
-
 import com.skilldistillery.filmquery.entities.*;
 
 public interface DatabaseAccessor {
