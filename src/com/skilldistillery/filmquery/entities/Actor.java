@@ -36,8 +36,28 @@ public class Actor {
 		return lastName;
 	}
 
+
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Actor [Id=");
+		builder.append(actorId);
+		builder.append(", firstName=");
+		builder.append(firstName);
+		builder.append(", lastName=");
+		builder.append(lastName);
+		builder.append(", getId()=");
+		builder.append(getActorId());
+		builder.append(", getFirstName()=");
+		builder.append(getFirstName());
+		builder.append(", getLastName()=");
+		builder.append(getLastName());
+		builder.append("]");
+		return builder.toString();
 	}
 	
 	@Override

@@ -11,6 +11,7 @@ import com.skilldistillery.filmquery.entities.Film;
 public class FilmQueryApp {
 	private static final String URL = "jdb:mysql://localhost:3306/sdvid?useSSL=false";
 	DatabaseAccessor db = new DatabaseAccessorObject();
+	boolean appClosed = false;
 	
 public FilmQueryApp() throws ClassNotFoundException {
 	Class.forName("com.mysql.jdbc.Driver");
@@ -22,25 +23,42 @@ public FilmQueryApp() throws ClassNotFoundException {
     app.launch();
 	}
 
-	private void test() {
-		Film film = db.findFilmById(1);
-		List<Film> films = ((DatabaseAccessorObject) db).findFilmsByActorId(4);
-		System.out.println(film.getActors().size());
-		System.out.println("Film ID: " + 1);
-//		System.out.println(film.().size());
-		System.out.println(film);
-		Actor actor = db.findActorById(10);
-		System.out.println(film);
-	}
+//	private void test() {
+//		Film film = db.findFilmById(1);
+//		List<Film> films = ((DatabaseAccessorObject) db).findFilmsByActorId(4);
+//		System.out.println(film.getActors().size());
+//		System.out.println("Film ID: " + 1);
+//		System.out.println(film);
+//		Actor actor = db.findActorById(10);
+//		System.out.println(film);
+//	}
 
 	private void launch() {
 		Scanner kb = new Scanner(System.in);
+		while (!appClosed) {
+			try {
+				startUserInterface(kb);
+			} catch (Exception e) {
+				System.out.println();
+				invalidInput(kb);
+				System.out.println();
+				kb.nextLine();
+			}
+	
+	}
+		kb.close();
+	}
+	private void invalidInput(Scanner kb) {
+	System.out.println("Invalid. Try again.");
+	
+}
+
+	private void startUserInterface(Scanner kb) throws Exception {
 		System.out.println("Welcome to Film Query. Make your selection below.");
 		boolean display = true;
 		int choice = 0;
 		int filmId = 0;
 		String key = "";
-		while (display = true) {
 			System.out.println("1: Find a film by its ID\n" + "(This must be a whole number).\n"
 					+ "2: Find a film by a searching for\n" + "title or description.\n" + "3: Exit program");
 			choice = kb.nextInt();
@@ -57,17 +75,16 @@ public FilmQueryApp() throws ClassNotFoundException {
 				searchFilmByKey(key);
 				break;
 			case 3:
-				display = false;
 				System.out.println("Exiting");
+				appClosed = true;
 				break;
 			default:
-				System.out.println("Invalid. Pick again.");
+				invalidInput(kb);
+				break;
 			}
 		}
-		startUserInterface(kb);
 
-		kb.close();
-	}
+	
 
 	private void searchFilmByKey(String key) {
 		List<Film> films = null;
@@ -113,7 +130,6 @@ public FilmQueryApp() throws ClassNotFoundException {
 		}
 	}
 
-	private void startUserInterface(Scanner kb) {
-	}
+	
 
 }
